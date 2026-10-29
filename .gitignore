@@ -1,0 +1,42 @@
+# Environment and secrets
+.env
+.env.*.local
+*.pem
+*.key
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build output
+.next/
+out/
+dist/
+build/
+coverage/
+
+# Laravel
+backend/.phpunit.cache/
+backend/storage/*.key
+backend/public/storage
+backend/bootstrap/cache/*
+backend/storage/logs/*.log
+.php-cs-fixer.cache
+
+# Node
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.*
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Testing
+.phpunit.result.cache
+playwright-report/
+test-results/

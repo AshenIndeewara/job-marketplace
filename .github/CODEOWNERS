@@ -1,0 +1,8 @@
+# Default owners for everything
+* @AshenIndeewara
+
+# Backend owns the Laravel API
+/backend/ @AshenIndeewara
+
+# Frontend owns the Next.js app
+/frontend/ @AshenIndeewara
