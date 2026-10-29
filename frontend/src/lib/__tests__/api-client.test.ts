@@ -1,22 +1,13 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ApiError } from '@/lib/api-error';
 import { apiFetch } from '@/lib/api-client';
 
-const originalLocation = window.location;
-
 beforeEach(() => {
   vi.stubGlobal('fetch', vi.fn());
-  // Minimal window.location mock for the 401 redirect assertion.
   vi.stubGlobal('window', {
     location: { pathname: '/jobs', assign: vi.fn() },
   });
-});
-
-afterEach(() => {
-  vi.unstubAllGlobals();
-  vi.unstubAllGlobals;
-  window.location = originalLocation;
 });
 
 function jsonResponse(status: number, body: unknown, headers: Record<string, string> = {}) {
@@ -45,14 +36,13 @@ describe('apiFetch error mapping (JM-28)', () => {
       ),
     );
 
-    const error = await apiFetch('/jobs').catch((e: unknown) => e);
+    const error = (await apiFetch('/jobs').catch((e: unknown) => e)) as ApiError;
 
     expect(error).toBeInstanceOf(ApiError);
-    const apiError = error as ApiError;
-    expect(apiError.status).toBe(422);
-    expect(apiError.code).toBe('validation_error');
-    expect(apiError.fieldError('name')).toBe('The name field is required.');
-    expect(apiError.requestId).toBe('req-1');
+    expect(error.status).toBe(422);
+    expect(error.code).toBe('validation_error');
+    expect(error.fieldError('name')).toBe('The name field is required.');
+    expect(error.requestId).toBe('req-1');
   });
 
   it('maps a 429 with Retry-After onto the ApiError', async () => {

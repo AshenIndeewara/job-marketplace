@@ -7,7 +7,7 @@
 const LANGUAGES = [
   { code: 'en', label: 'English' },
   { code: 'si', label: 'සිංහල' },
-  { code: 'ta', label: 'தமிழ் },
+  { code: 'ta', label: 'தமிழ்' },
 ] as const;
 
 export function LanguageSwitcher() {
