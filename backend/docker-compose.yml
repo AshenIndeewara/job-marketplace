@@ -1,0 +1,32 @@
+# Local development dependencies for the Laravel API (JM-27).
+# Start with: docker compose up -d
+# Then set in backend/.env: DB_HOST=mysql (or keep 127.0.0.1 when using the exposed ports).
+
+services:
+  mysql:
+    image: mysql:8.4
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: job_marketplace
+      MYSQL_USER: marketplace
+      MYSQL_PASSWORD: marketplace
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+
+volumes:
+  mysql-data:
